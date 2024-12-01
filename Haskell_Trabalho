@@ -1,0 +1,39 @@
+import Data.List (foldl')
+
+-- Definindo os eventos e suas pontuações
+tipoEvento :: String -> Int
+tipoEvento "acertou alvo" = 10
+tipoEvento "errou alvo" = -5
+tipoEvento "bônus" = 20
+tipoEvento _ = 0  -- Para eventos não reconhecidos
+
+-- Função para atribuir pontos a cada evento
+atribuiPontos :: [String] -> [Int]
+atribuiPontos eventos = map tipoEvento eventos
+
+-- Função para filtrar eventos com pontuação válida
+filtraEventos :: [Int] -> [Int]
+filtraEventos = filter (> 0)
+
+-- Função para calcular a pontuação final do jogador
+calculaPontuacaoFinal :: [Int] -> Int
+calculaPontuacaoFinal = foldl' (+) 0
+
+-- Função principal
+main :: IO ()
+main = do
+    let eventos = ["acertou alvo", "errou alvo", "bônus", "acertou alvo", "evento desconhecido"]
+    
+    -- Atribui pontos a cada evento
+    let pontos = atribuiPontos eventos
+    
+    -- Filtra eventos com pontuação válida
+    let pontosValidos = filtraEventos pontos
+    
+    -- Calcula a pontuação final
+    let pontuacaoFinal = calculaPontuacaoFinal pontosValidos
+    
+    putStrLn ("Eventos: " ++ show eventos)
+    putStrLn ("Pontos atribuídos: " ++ show pontos)
+    putStrLn ("Pontos válidos: " ++ show pontosValidos)
+    putStrLn ("Pontuação final do jogador: " ++ show pontuacaoFinal)
